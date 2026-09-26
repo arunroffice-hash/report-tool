@@ -4,10 +4,29 @@
 {% block page_title %}Reports{% endblock %}
 
 {% block content %}
-<div class="card dashboard-card">
-  <div class="card-body">
-    <div class="d-flex flex-wrap gap-3 align-items-end justify-content-between mb-3">
-      <div class="filter-grid">
+<section class="page-stack">
+  <div class="hero-banner dashboard-card">
+    <div>
+      <span class="eyebrow-tag">Reporting Console</span>
+      <h2 class="section-title">Inventory records with fast filtering and export.</h2>
+      <p class="section-subtitle">Use the controls below to refine the dataset and export the current view without leaving the page.</p>
+    </div>
+    <div class="hero-tile-strip">
+      <div class="hero-tile">
+        <span>Mode</span>
+        <strong>Live dataset</strong>
+      </div>
+      <div class="hero-tile">
+        <span>Output</span>
+        <strong>Excel ready</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="card dashboard-card elevated-card">
+    <div class="card-body">
+      <div class="toolbar-shell d-flex flex-wrap gap-3 align-items-end justify-content-between mb-3">
+        <div class="filter-grid">
         <div>
           <label class="form-label">Main Code</label>
           <input id="mainCodeFilter" type="text" class="form-control" placeholder="Filter" />
@@ -22,37 +41,38 @@
         </div>
       </div>
 
-      <div class="d-flex gap-2 align-items-end">
-        <button id="applyFiltersBtn" class="btn btn-primary">Apply</button>
-        <button id="clearFiltersBtn" class="btn btn-outline-secondary">Clear</button>
-        <button id="exportBtn" class="btn btn-success">Export Excel</button>
+        <div class="action-cluster d-flex gap-2 align-items-end">
+          <button id="applyFiltersBtn" class="btn btn-primary">Apply</button>
+          <button id="clearFiltersBtn" class="btn btn-outline-secondary">Clear</button>
+          <button id="exportBtn" class="btn btn-success">Export Excel</button>
+        </div>
+      </div>
+
+      <div class="table-responsive custom-table-wrap">
+        <table class="table table-hover align-middle mb-0">
+          <thead>
+            <tr>
+              <th data-sort="main_code">Main Code</th>
+              <th data-sort="child_code">Child Code</th>
+              <th data-sort="description">Description</th>
+              <th data-sort="available_qty">Available Qty</th>
+              <th data-sort="set_qty">Set Qty</th>
+              <th data-sort="loose_qty">Loose Qty</th>
+            </tr>
+          </thead>
+          <tbody id="reportTableBody"></tbody>
+        </table>
+      </div>
+
+      <div class="pagination-toolbar mt-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <div id="resultsInfo" class="text-muted">Showing 0 records</div>
+        <nav>
+          <ul id="paginationControls" class="pagination pagination-sm mb-0"></ul>
+        </nav>
       </div>
     </div>
-
-    <div class="table-responsive custom-table-wrap">
-      <table class="table table-hover align-middle mb-0">
-        <thead>
-          <tr>
-            <th data-sort="main_code">Main Code</th>
-            <th data-sort="child_code">Child Code</th>
-            <th data-sort="description">Description</th>
-            <th data-sort="available_qty">Available Qty</th>
-            <th data-sort="set_qty">Set Qty</th>
-            <th data-sort="loose_qty">Loose Qty</th>
-          </tr>
-        </thead>
-        <tbody id="reportTableBody"></tbody>
-      </table>
-    </div>
-
-    <div class="pagination-toolbar mt-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
-      <div id="resultsInfo" class="text-muted">Showing 0 records</div>
-      <nav>
-        <ul id="paginationControls" class="pagination pagination-sm mb-0"></ul>
-      </nav>
-    </div>
   </div>
-</div>
+</section>
 {% endblock %}
 
 {% block scripts %}

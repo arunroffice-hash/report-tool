@@ -4,67 +4,87 @@
 {% block page_title %}Master Uploader{% endblock %}
 
 {% block content %}
-<div class="row g-4">
-  <div class="col-12">
-    <div class="card dashboard-card">
-      <div class="card-body">
-        <div class="d-flex justify-content-between align-items-center mb-3">
+<section class="page-stack">
+  <div class="hero-banner dashboard-card">
+    <div>
+      <span class="eyebrow-tag">Data Operations</span>
+      <h2 class="section-title">Replace the master inventory with a controlled upload workflow.</h2>
+      <p class="section-subtitle">The upload path stays unchanged. This refresh only improves the screen hierarchy, progress presentation, and summary cards.</p>
+    </div>
+    <div class="hero-tile-strip">
+      <div class="hero-tile">
+        <span>Input</span>
+        <strong>Excel workbook</strong>
+      </div>
+      <div class="hero-tile">
+        <span>Mode</span>
+        <strong>Full replace</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-12">
+      <div class="card dashboard-card elevated-card">
+        <div class="card-body">
+          <div class="section-heading d-flex justify-content-between align-items-center mb-3">
           <div>
             <h5 class="card-title mb-1">Inventory Upload</h5>
             <small class="text-muted">Replace the inventory dataset with a fresh Excel file.</small>
           </div>
+          </div>
+
+          <form id="uploadForm" enctype="multipart/form-data">
+            <div class="upload-dropzone">
+              <div class="upload-icon">⬆</div>
+              <p class="mb-2">Choose an Excel file to import inventory records</p>
+              <input class="form-control" type="file" id="inventoryFile" name="file" accept=".xlsx,.xls" required />
+            </div>
+
+            <div class="progress mt-4" aria-label="Upload progress">
+              <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%">0%</div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-2">
+              <small id="progressText" class="text-muted">Awaiting file selection</small>
+              <div class="d-flex gap-2">
+                <button class="btn btn-outline-danger" id="clearInventoryBtn" type="button">Master Clear</button>
+                <button class="btn btn-primary" type="submit">Upload Inventory</button>
+              </div>
+            </div>
+          </form>
         </div>
+      </div>
+    </div>
 
-        <form id="uploadForm" enctype="multipart/form-data">
-          <div class="upload-dropzone">
-            <div class="upload-icon">⬆</div>
-            <p class="mb-2">Choose an Excel file to import inventory records</p>
-            <input class="form-control" type="file" id="inventoryFile" name="file" accept=".xlsx,.xls" required />
-          </div>
-
-          <div class="progress mt-4" aria-label="Upload progress">
-            <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%">0%</div>
-          </div>
-
-          <div class="d-flex justify-content-between align-items-center mt-3">
-            <small id="progressText" class="text-muted">Awaiting file selection</small>
-            <div class="d-flex gap-2">
-              <button class="btn btn-outline-danger" id="clearInventoryBtn" type="button">Master Clear</button>
-              <button class="btn btn-primary" type="submit">Upload Inventory</button>
+    <div class="col-12">
+      <div class="card dashboard-card elevated-card">
+        <div class="card-body">
+          <h5 class="card-title">Upload Summary</h5>
+          <div id="uploadSummary" class="summary-grid">
+            <div class="summary-item">
+              <span class="label">Total Records</span>
+              <strong id="totalRecords">0</strong>
+            </div>
+            <div class="summary-item">
+              <span class="label">Successful</span>
+              <strong id="successfulRecords">0</strong>
+            </div>
+            <div class="summary-item">
+              <span class="label">Failed</span>
+              <strong id="failedRecords">0</strong>
+            </div>
+            <div class="summary-item">
+              <span class="label">Upload Time</span>
+              <strong id="uploadTime">0.00s</strong>
             </div>
           </div>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-12">
-    <div class="card dashboard-card">
-      <div class="card-body">
-        <h5 class="card-title">Upload Summary</h5>
-        <div id="uploadSummary" class="summary-grid">
-          <div class="summary-item">
-            <span class="label">Total Records</span>
-            <strong id="totalRecords">0</strong>
-          </div>
-          <div class="summary-item">
-            <span class="label">Successful</span>
-            <strong id="successfulRecords">0</strong>
-          </div>
-          <div class="summary-item">
-            <span class="label">Failed</span>
-            <strong id="failedRecords">0</strong>
-          </div>
-          <div class="summary-item">
-            <span class="label">Upload Time</span>
-            <strong id="uploadTime">0.00s</strong>
-          </div>
+          <div id="uploadAlert" class="mt-3"></div>
         </div>
-        <div id="uploadAlert" class="mt-3"></div>
       </div>
     </div>
   </div>
-</div>
+</section>
 {% endblock %}
 
 {% block scripts %}

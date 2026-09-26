@@ -3,32 +3,54 @@
 {% block title %}Login | Inventory Reporting{% endblock %}
 
 {% block content %}
-<div class="login-page d-flex align-items-center justify-content-center">
-  <div class="login-card shadow-lg">
-    <div class="login-header text-center">
-      <div class="brand-logo">IR</div>
-      <h2>Inventory Reporting</h2>
-      <p>Secure access</p>
-    </div>
-
-    {% if error %}
-      <div class="alert alert-danger" role="alert">{{ error }}</div>
-    {% endif %}
-
-    <form method="post" action="/login">
-      <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
-        <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required />
+<div class="login-page enterprise-login d-flex align-items-center justify-content-center">
+  <div class="login-shell">
+    <section class="login-story glass-panel">
+      <span class="eyebrow-tag">Inventory Control</span>
+      <h2>Enterprise reporting with a calmer, sharper operator view.</h2>
+      <p>Monitor uploads, review short sets, and export operational reports from a single white-and-navy workspace.</p>
+      <div class="login-feature-grid">
+        <div class="login-feature-tile">
+          <strong>Reports</strong>
+          <span>Sorted, filterable inventory visibility.</span>
+        </div>
+        <div class="login-feature-tile">
+          <strong>Uploads</strong>
+          <span>Controlled refresh of master inventory.</span>
+        </div>
+        <div class="login-feature-tile">
+          <strong>Variance</strong>
+          <span>Workbook comparison for audit-ready checks.</span>
+        </div>
       </div>
-      <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required />
-      </div>
-      <button type="submit" class="btn btn-primary w-100">Login</button>
-    </form>
+    </section>
 
-    <div class="login-footer">
-      <small>Default admin credentials: admin / admin123</small>
+    <div class="login-card shadow-lg glass-panel">
+      <div class="login-header text-center">
+        <div class="brand-logo">IR</div>
+        <h2>Inventory Reporting</h2>
+        <p>Secure access</p>
+      </div>
+
+      {% if error %}
+        <div class="alert alert-danger" role="alert">{{ error }}</div>
+      {% endif %}
+
+      <form method="post" action="/login">
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required />
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required />
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Login</button>
+      </form>
+
+      <div class="login-footer">
+        <small>Default admin credentials: admin / admin123</small>
+      </div>
     </div>
   </div>
 </div>

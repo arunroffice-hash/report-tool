@@ -4,61 +4,71 @@
 {% block page_title %}Logs{% endblock %}
 
 {% block content %}
-<div class="card dashboard-card">
-  <div class="card-body">
-    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-      <div>
-        <h5 class="mb-0">Upload Summary History</h5>
-      </div>
-      <span class="badge bg-secondary-subtle text-dark">{{ history_records|length }} records</span>
-    </div>
-
-    <div class="table-responsive custom-table-wrap">
-      <table class="table table-hover align-middle mb-0">
-        <thead>
-          <tr>
-            <th>Batch ID</th>
-            <th>File Name</th>
-            <th>Uploaded By</th>
-            <th>Upload Date</th>
-            <th>Total</th>
-            <th>Success</th>
-            <th>Failed</th>
-            <th>Status</th>
-            <th>Log Info</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% if history_records %}
-            {% for record in history_records %}
-            <tr>
-              <td>#{{ record.batch_id }}</td>
-              <td>{{ record.file_name }}</td>
-              <td>{{ record.uploaded_by }}</td>
-              <td>{{ record.upload_date }}</td>
-              <td>{{ record.total_records }}</td>
-              <td>{{ record.success_records }}</td>
-              <td>{{ record.failed_records }}</td>
-              <td>
-                {% if record.status == 'completed' %}
-                  <span class="badge bg-success-subtle text-success-emphasis">Completed</span>
-                {% elif record.status == 'failed' %}
-                  <span class="badge bg-danger-subtle text-danger-emphasis">Failed</span>
-                {% else %}
-                  <span class="badge bg-warning-subtle text-warning-emphasis">{{ record.status|title }}</span>
-                {% endif %}
-              </td>
-              <td>{{ record.log_summary }}</td>
-            </tr>
-            {% endfor %}
-          {% else %}
-            <tr>
-              <td colspan="9" class="text-center text-muted py-4">No upload history available yet.</td>
-            </tr>
-          {% endif %}
-        </tbody>
-      </table>
+<section class="page-stack">
+  <div class="hero-banner dashboard-card compact-hero">
+    <div>
+      <span class="eyebrow-tag">Audit Trail</span>
+      <h2 class="section-title">Upload history in a cleaner operational ledger.</h2>
+      <p class="section-subtitle">Review batch outcomes, timings, and status changes without changing the underlying log behavior.</p>
     </div>
   </div>
-</div>
+
+  <div class="card dashboard-card elevated-card">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+        <div>
+          <h5 class="mb-0">Upload Summary History</h5>
+        </div>
+        <span class="badge bg-secondary-subtle text-dark">{{ history_records|length }} records</span>
+      </div>
+
+      <div class="table-responsive custom-table-wrap">
+        <table class="table table-hover align-middle mb-0">
+          <thead>
+            <tr>
+              <th>Batch ID</th>
+              <th>File Name</th>
+              <th>Uploaded By</th>
+              <th>Upload Date</th>
+              <th>Total</th>
+              <th>Success</th>
+              <th>Failed</th>
+              <th>Status</th>
+              <th>Log Info</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if history_records %}
+              {% for record in history_records %}
+              <tr>
+                <td>#{{ record.batch_id }}</td>
+                <td>{{ record.file_name }}</td>
+                <td>{{ record.uploaded_by }}</td>
+                <td>{{ record.upload_date }}</td>
+                <td>{{ record.total_records }}</td>
+                <td>{{ record.success_records }}</td>
+                <td>{{ record.failed_records }}</td>
+                <td>
+                  {% if record.status == 'completed' %}
+                    <span class="badge bg-success-subtle text-success-emphasis">Completed</span>
+                  {% elif record.status == 'failed' %}
+                    <span class="badge bg-danger-subtle text-danger-emphasis">Failed</span>
+                  {% else %}
+                    <span class="badge bg-warning-subtle text-warning-emphasis">{{ record.status|title }}</span>
+                  {% endif %}
+                </td>
+                <td>{{ record.log_summary }}</td>
+              </tr>
+              {% endfor %}
+            {% else %}
+              <tr>
+                <td colspan="9" class="text-center text-muted py-4">No upload history available yet.</td>
+              </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock %}

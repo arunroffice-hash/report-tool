@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Variance Calculator{% endblock %}
+{% block page_title %}Variance Calculator{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-body">
+    <form id="varianceForm" action="/api/variance" method="post" enctype="multipart/form-data">
+      <div class="mb-3">
+        <label class="form-label">Old Report (Excel)</label>
+        <input name="old_file" type="file" class="form-control" accept=".xlsx,.xls" required />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">New Report (Excel)</label>
+        <input name="new_file" type="file" class="form-control" accept=".xlsx,.xls" required />
+      </div>
+
+      <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a href="/reports" class="btn btn-outline-secondary">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

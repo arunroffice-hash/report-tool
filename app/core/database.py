@@ -1,12 +1,33 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
+import logging
+import os
 
 from app.core.config import settings
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 Base = declarative_base()
 
-connect_args = {"check_same_thread": False} if settings.DATABASE_URL.startswith("sqlite") else {}
-engine = create_engine(settings.DATABASE_URL, connect_args=connect_args, future=True)
+# Ensure database URL is set
+database_url = settings.DATABASE_URL
+if not database_url:
+    raise ValueError("DATABASE_URL environment variable is not set")
+
+logger.info(f"Database URL: {database_url[:40]}...")
+
+is_sqlite = database_url.startswith("sqlite")
+connect_args = {"check_same_thread": False} if is_sqlite else {}
+
+engine = create_engine(
+    database_url,
+    connect_args=connect_args,
+    future=True,
+    echo=False,
+    pool_pre_ping=True,
+    pool_recycle=3600,
+)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
@@ -21,27 +42,42 @@ def get_db():
 
 def create_db_and_tables() -> None:
     """Create all tables registered in the SQLAlchemy metadata."""
-    from app.models.inventory import InventoryMaster
-    from app.models.upload_history import UploadHistory
-    from app.models.user import User
+    try:
+        from app.models.inventory import InventoryMaster
+        from app.models.upload_history import UploadHistory
+        from app.models.user import User
 
-    Base.metadata.create_all(bind=engine)
+        logger.info("Creating database tables...")
+        Base.metadata.create_all(bind=engine)
+        logger.info("✅ Database tables created successfully")
+    except Exception as e:
+        logger.error(f"❌ Error creating tables: {e}")
+        raise
 
 
 def seed_admin_user() -> None:
     """Create a default admin user for first-time startup."""
-    from app.core.security import hash_password
-    from app.models.user import User
-
-    db = SessionLocal()
     try:
-        if not db.query(User).filter(User.username == "admin").first():
-            admin_user = User(
-                username="admin",
-                password_hash=hash_password("admin123"),
-                role="admin",
-            )
-            db.add(admin_user)
-            db.commit()
-    finally:
-        db.close()
+        from app.core.security import hash_password
+        from app.models.user import User
+
+        db = SessionLocal()
+        try:
+            existing_admin = db.query(User).filter(User.username == "admin").first()
+            if not existing_admin:
+                logger.info("Creating default admin user...")
+                admin_user = User(
+                    username="admin",
+                    password_hash=hash_password("admin123"),
+                    role="admin",
+                )
+                db.add(admin_user)
+                db.commit()
+                logger.info("✅ Admin user created successfully")
+            else:
+                logger.info("ℹ️ Admin user already exists")
+        finally:
+            db.close()
+    except Exception as e:
+        logger.warning(f"⚠️ Could not seed admin user (non-critical): {e}")
+        # Don't crash - app can run without this

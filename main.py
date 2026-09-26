@@ -25,8 +25,13 @@ app.include_router(variance_router)
 @app.on_event("startup")
 async def startup_event() -> None:
     """Create tables and seed the default admin user on application startup."""
-    create_db_and_tables()
-    seed_admin_user()
+    try:
+        create_db_and_tables()
+        seed_admin_user()
+    except Exception as e:
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.error(f"Startup error (non-critical): {e}", exc_info=True)
 
 
 @app.get("/")
@@ -41,7 +46,12 @@ if __name__ == "__main__":
     import os
     import uvicorn
 
-    port = int(os.getenv("PORT", 8000))
-    reload = os.getenv("ENVIRONMENT", "development") == "development"
+    port = int(os.getenv("PORT", "8000"))
+    is_production = os.getenv("ENVIRONMENT", "development") == "production"
+    reload = not is_production
+    
+    print(f"🚀 Starting FastAPI server on port {port}")
+    print(f"Environment: {os.getenv('ENVIRONMENT', 'development')}")
+    print(f"Reload: {reload}")
     
     uvicorn.run("main:app", host="0.0.0.0", port=port, reload=reload)

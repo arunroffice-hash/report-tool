@@ -9,11 +9,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY . .
 
-# Expose the port
-EXPOSE 8000
-
 # Set environment variables
 ENV PYTHONUNBUFFERED=1
+ENV ENVIRONMENT=production
 
 # Run the application
 CMD ["python", "main.py"]

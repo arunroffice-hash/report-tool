@@ -1,0 +1,12 @@
+[build]
+builder = "dockerfile"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+startCommand = "python main.py"
+numReplicas = 1
+restartPolicyMaxRetries = 5
+
+[env]
+PYTHONUNBUFFERED = "1"
+ENVIRONMENT = "production"
